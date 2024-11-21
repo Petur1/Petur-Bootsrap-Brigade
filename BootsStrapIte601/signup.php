@@ -30,11 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="navstyle.css">
     <title>Sign Up</title>
 
 </head>
 
 <body>
+
+    <div class="header__menu">
+
+        <?php include 'navbar.php'; ?>
+        
+    </div>
 
     <form method="POST" action="signup.php">
 

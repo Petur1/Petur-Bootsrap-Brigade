@@ -88,11 +88,10 @@ $result = $conn->query($sql);
             <?php
             // Display videos dynamically
             if ($result->num_rows > 0) {
-                while ($video = $result->fetch_assoc()) {
+                while ($videostable = $result->fetch_assoc()) {
                     echo "<div class='col-lg-4 col-md-6 col-sm-6'>";
                     echo "<div class='product__item'>";
-                    echo "<div class='product__item__pic set-bg' data-setbg='" . $video['thumbnail_url'] . "'>";
-                    echo "<div class='ep'>Age Limit: " . $video['age_limit'] . "</div>";
+                    echo "<div class='ep'>Age Limit: " . $videostable['age_limit'] . "</div>";
                     echo "<div class='comment'><i class='fa fa-comments'></i> 11</div>";
                     echo "<div class='view'><i class='fa fa-eye'></i> 9141</div>";
                     echo "</div>";
@@ -101,7 +100,7 @@ $result = $conn->query($sql);
                     echo "<li>Active</li>";
                     echo "<li>Movie</li>";
                     echo "</ul>";
-                    echo "<h5><a href='#'>" . $video['title'] . "</a></h5>";
+                    echo "<h5><a href='#'>" . $videostable['title'] . "</a></h5>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
