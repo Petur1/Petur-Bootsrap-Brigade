@@ -1,0 +1,62 @@
+.header {
+    display:            flex;
+    justify-content:    space-between;
+    align-items:        center;
+    padding:            10px 20px;
+    background-color:   rgba(238, 255, 0, 0.50);  
+    color:              white;
+    height:             60px; 
+    box-shadow:         0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-logo {
+    display:            flex;
+    align-items:        center;
+}
+
+.header-logo .logo {
+    width:              80px;
+    height:             auto;
+    display:            block;
+    border-radius:      60px;
+}
+
+.header-logo .logo-text {
+    font-size:          24px;
+    font-weight:        bold;
+    color:              rgb(0, 0, 0);
+    margin-left:        10px;
+    text-decoration:    none;
+}
+
+.header-profile {
+    display:            flex;
+    align-items:        center;
+}
+
+.header-profile .profile-icon {
+    background-image:       url('img/RiyoGudako.png'); 
+    background-size:        cover;
+    background-position:    top;
+    height:                 75px; 
+    width:                  75px;
+    margin-bottom:          1px;
+    border-radius:          100px;
+    cursor:             pointer;
+    transition:         transform 0.5s;
+}
+
+.header-profile .profile-icon:hover {
+    transform:          scale(1.1);
+}
+
+.header-profile .profile-link {
+    font-size:          18px;
+    color:              rgb(0, 0, 0);
+    text-decoration:    none;
+    margin-left:        10px;
+}
+
+.header-profile .profile-link:hover {
+    text-decoration:    underline;
+}
