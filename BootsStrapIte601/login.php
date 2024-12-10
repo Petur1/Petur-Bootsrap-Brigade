@@ -1,40 +1,56 @@
 <?php
 
-include 'db.php'; 
-
 session_start();
+include 'db.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+class Login {
 
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
+    private $conn;
 
-    if ($result->num_rows > 0) {
+    public function __construct($dbConnection)  {
 
-         $user = $result->fetch_assoc();
+        $this->conn = $dbConnection;
+    }
 
-        if (password_verify($password, $user['password'])) {
+    public function authenticate($username, $password)  {
 
-            $_SESSION['username'] = $username;
-            $_SESSION['age'] = $user['age'];
-            header("Location: index.php");
-            exit();
+        $stmt   =   $this   ->  conn    ->  prepare("SELECT * FROM users WHERE username = ?");
+        $stmt   ->  bind_param("s", $username);
+        $stmt   ->  execute();
+        $result =   $stmt   ->  get_result();
 
+        if ($result->num_rows > 0) {
+
+            $user = $result->fetch_assoc();
+
+            if (password_verify($password, $user['password'])) {
+                
+                $_SESSION['username'] = $username;
+                $_SESSION['age'] = $user['age'];
+
+                header("Location: index.php");
+                exit();
+
+            } else {
+
+                return "! Invalid password !";
+            }
         }   else {
 
-                echo "! Invalid password !";
-
+                return "! User not found !";
             }
+    }
+}
 
-    }   else {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            echo "! User not found !";
-
-        }
+    $login      = new Login($conn);
+    $username   = $_POST        ['username'];
+    $password   = $_POST        ['password'];
+    $error      = $login    ->  authenticate($username, $password);
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -47,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link rel="stylesheet"  href="navbardesign.css">
     <link rel="stylesheet"  href="headerdesign.css">
-    
-    <?php include "header.php"?>
+
+    <?php include "header.php" ?>
     <title>Login</title>
 
 </head>
@@ -56,34 +72,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <div class="header__menu">
-
         <?php include 'navbar.php'; ?>
-
     </div>
 
     <div class="loginbox">
-
         <div class="loginpic"></div>
 
-            <form method="POST" action="login.php">
+        <form method="POST" action="login.php">
 
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>  
-                <br>
+            <label for="username">  Username:   </label>
+            <input type="text"      id="username"   name="username" required>
+            <br>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <br>
+            <label for="password">  Password:   </label>
+            <input type="password"  id="password"   name="password" required>
+            <br>
 
-                <button type="submit">Login</button>
+            <button type="submit">Login</button>
 
-            </form>
+        </form>
 
-            <p>Don't have an account yet? <a href="signup.php">Sign up</a></p>
+        <?php if (!empty($error)): ?>
+            <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
 
-        </div>
+        <p>Don't have an account yet? <a href="signup.php">Sign up</a></p>
     </div>
-
 </body>
 
 </html>
